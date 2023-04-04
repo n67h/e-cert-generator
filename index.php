@@ -52,14 +52,15 @@
             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
 
             //email sender
-            $mail->Username   = 'arnel.mosenabre05@gmail.com';                     //SMTP username
+            $mail->Username   = '';                     //SMTP username
             //email app password 
-            $mail->Password   = 'pezdnczjozrqxxxs';                               //SMTP password
+            $mail->Password   = '';                               //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
-            $mail->setFrom('arnel.mosenabre05@gmail.com', 'Cerficate of Participation');
+            //put the email sender in first param
+            $mail->setFrom('', 'Cerficate of Participation');
             $mail->addAddress($email, $full_name);     //Add a recipient
             
             //Attachments
