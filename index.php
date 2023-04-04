@@ -6,19 +6,33 @@
     use PHPMailer\PHPMailer\Exception;
 
     if(isset($_POST['generate'])){
-        // $add_prod_cat = mysqli_real_escape_string($conn, $_POST['add_prod_cat']);
         require_once 'fpdf.php';
         $email = $_POST['email'];
         $full_name = $_POST['full_name'];
 
-        
+        //specify the full path to the font file
         $font = 'C:\xampp\htdocs\e-cert-generator\fonts\arial_narrow_7.ttf';
+
+        //get the template image
         $image = imagecreatefromjpeg('images/ecert_test.jpg');
+
+        //set the color of font
+        //params are (image, R, G, B)
         $font_color = imagecolorallocate($image, 19, 21, 22);
+
+        //WIP, still trying to center the text
         imagettftext($image, 30, 0, 300, 360, $font_color, $font, $full_name);
+
+        //path of image
         $path_image = 'e-certs/' .$full_name. '.jpg';
+
+        //path of pdf
         $path_pdf = 'e-certs/' .$full_name. '.pdf';
+
+        //creates a jpg file based on param
         imagejpeg($image, $path_image);
+
+        //create pdf
         $pdf = new FPDF('L', 'in', [11.7, 8.27]);
         $pdf->AddPage();
         $pdf->Image($path_image, 0, 0, 11.7, 8.27);
@@ -36,20 +50,23 @@
             $mail->isSMTP();                                            //Send using SMTP
             $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+
+            //email sender
             $mail->Username   = 'arnel.mosenabre05@gmail.com';                     //SMTP username
+            //email app password 
             $mail->Password   = 'pezdnczjozrqxxxs';                               //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
-            $mail->setFrom('testproject6767@gmail.com', 'Cerficate of Participation');
+            $mail->setFrom('arnel.mosenabre05@gmail.com', 'Cerficate of Participation');
             $mail->addAddress($email, $full_name);     //Add a recipient
             
             //Attachments
             $mail->addAttachment($path_pdf);
-            //Content
+
+            //used dummy details here, change the content accordingly
             $mail_content = '
-            
                 <h3>Greetings, ' .$full_name. '!</h3>
 
                 <p>Thank you for participating in the webinar entitled "test test test" held on Date of webinar via Zoom and Facebook live. We hope that you inspired and gained insight from what our Resource Speaker has imparted.</p>
@@ -79,7 +96,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-cert</title>
+    <title>E-certificate</title>
     <!-- latest bootstrap cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- link for fonts -->
